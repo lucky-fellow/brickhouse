@@ -21,7 +21,7 @@ import org.apache.hadoop.hive.ql.exec.UDFArgumentException;
 import org.apache.hadoop.hive.ql.metadata.HiveException;
 import org.apache.hadoop.hive.ql.udf.UDFType;
 import org.apache.hadoop.hive.ql.udf.generic.GenericUDF;
-import org.apache.hadoop.hive.serde2.SerDe;
+import org.apache.hadoop.hive.serde2.SerDeSpec;
 import org.apache.hadoop.hive.serde2.SerDeException;
 import org.apache.hadoop.hive.serde2.lazy.LazySimpleSerDe;
 import org.apache.hadoop.hive.serde2.objectinspector.ConstantObjectInspector;
@@ -116,7 +116,7 @@ public class DistributedMapUDF extends GenericUDF {
             } else {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(mapFile)));
 
-                SerDe lazy = getLineSerde();
+                LazySimpleSerDe lazy = getLineSerde();
                 StructObjectInspector lineInsp = (StructObjectInspector) lazy.getObjectInspector();
                 StructField keyRef = lineInsp.getStructFieldRef("key");
                 StructField valueRef = lineInsp.getStructFieldRef("value");

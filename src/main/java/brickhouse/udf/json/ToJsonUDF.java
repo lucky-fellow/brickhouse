@@ -16,6 +16,7 @@ package brickhouse.udf.json;
  *
  **/
 
+import org.apache.hadoop.hive.common.type.Timestamp;
 import org.apache.hadoop.hive.ql.exec.Description;
 import org.apache.hadoop.hive.ql.exec.UDFArgumentException;
 import org.apache.hadoop.hive.ql.metadata.HiveException;
@@ -49,7 +50,6 @@ import org.joda.time.format.ISODateTimeFormat;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -373,7 +373,7 @@ public class ToJsonUDF extends GenericUDF {
                 gen.writeNull();
             } else {
                 Timestamp timestamp = timestampInspector.getPrimitiveJavaObject(obj);
-                String timeStr = isoFormatter.print(timestamp.getTime());
+                String timeStr = isoFormatter.print(timestamp.toSqlTimestamp().getTime());
                 gen.writeString(timeStr);
             }
         }
